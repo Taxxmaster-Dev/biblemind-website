@@ -31,27 +31,63 @@ jobs:
           trap 'rm -rf "$temporary"' EXIT
 
           check_site() {
-            local origin="$1" label="$2"
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/privacy.html" -o "$temporary/${label}_site_privacy" || return 1 || return 1
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/terms.html" -o "$temporary/${label}_site_terms" || return 1 || return 1
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/privacy.html" -o "$temporary/${label}_app_privacy" || return 1 || return 1
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/terms.html" -o "$temporary/${label}_app_terms" || return 1 || return 1
-            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/${label}_site_privacy" || return 1 || return 1
-            grep -Fq 'separate terms published in the app' "$temporary/${label}_site_terms" || return 1 || return 1
-            grep -Fq 'Mobile App Privacy Policy' "$temporary/${label}_app_privacy" || return 1 || return 1
-            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/${label}_app_privacy" || return 1 || return 1
-            grep -Fq 'Mobile App Terms of Use' "$temporary/${label}_app_terms" || return 1 || return 1
-            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/${label}_app_terms" || return 1 || return 1
-            echo "PASS: ${label} website-only and app-only legal notices are distinct."
+            local origin="$1" label="$2" path body report status final
+            for path in /privacy.html /terms.html /app/privacy.html /app/terms.html; do
+              body="$temporary/$label$(echo "$path" | tr '/' '_')"
+              report="$(curl --silent --show-error --location --max-time 25 \
+                --output "$body" --write-out '%{http_code} %{url_effective}' \
+                "$origin$path")" || {
+                echo "FAIL: $label $path transport/TLS/DNS error."
+                return 1
+              }
+              status="$(printf '%s\n' "$report" | cut -d' ' -f1)"
+              final="$(printf '%s\n' "$report" | cut -d' ' -f2-)"
+              echo "URL CHECK: $label $path HTTP $status -> $final"
+              if [ "$status" != "200" ]; then
+                echo "FAIL: $label $path is not published at the expected origin."
+                return 1
+              fi
+            done
+
+            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/$label_privacy.html" || {
+              echo "FAIL: $label site privacy scope is wrong."
+              return 1
+            }
+            grep -Fq 'separate terms published in the app' "$temporary/$label_terms.html" || {
+              echo "FAIL: $label site terms scope is wrong."
+              return 1
+            }
+            grep -Fq 'Mobile App Privacy Policy' "$temporary/$label_app_privacy.html" || {
+              echo "FAIL: $label app privacy is missing."
+              return 1
+            }
+            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/$label_app_privacy.html" || {
+              echo "FAIL: $label app privacy scope is wrong."
+              return 1
+            }
+            grep -Fq 'Mobile App Terms of Use' "$temporary/$label_app_terms.html" || {
+              echo "FAIL: $label app terms are missing."
+              return 1
+            }
+            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/$label_app_terms.html" || {
+              echo "FAIL: $label app terms scope is wrong."
+              return 1
+            }
+            echo "PASS: $label website-only and app-only legal notices are distinct."
           }
 
+          echo "DNS biblemind.eu:"
+          getent ahostsv4 biblemind.eu || true
+          echo "DNS Render origin:"
+          getent ahostsv4 biblemind-website-v3.onrender.com || true
+
           # Allow the Render automatic deployment and CDN to converge.
-          for attempt in $(seq 1 10); do
+          for attempt in $(seq 1 3); do
             if check_site "$render" render && check_site "$site" custom_domain; then
               echo 'PASS: Public BibleMind legal pages are deployed on both domains.'
               exit 0
             fi
-            echo "Attempt ${attempt}/10: the live legal pages are not fully published yet."
+            echo "Attempt ${attempt}/3: the live legal pages are not fully published yet."
             sleep 15
           done
           echo 'FAIL: GitHub source was updated but the legal pages are not live.' >&2
