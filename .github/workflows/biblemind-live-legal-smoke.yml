@@ -1,0 +1,39 @@
+name: BibleMind public legal notice smoke (read-only)
+
+on:
+  push:
+    branches:
+      - feature/website-live-smoke-20261020
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  legal-http-smoke:
+    name: Check public website/app legal notices and current backend
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read-only HTTP and legal-scope checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          tmpdir="$(mktemp -d)"
+          trap 'rm -rf "$tmpdir"' EXIT
+          check() {
+            local url="$1" file="$2" phrase="$3"
+            echo "Checking $url"
+            curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --connect-timeout 8 --max-time 25 "$url" -o "$tmpdir/$file"
+            grep -Fq "$phrase" "$tmpdir/$file" || { echo "Wrong legal scope or stale deploy at $url" >&2; exit 1; }
+            echo "OK $url"
+          }
+          check 'https://biblemind.eu/privacy.html' site-privacy.html 'This policy covers the processing of personal data that takes place when you use the public introductory website at biblemind.eu.'
+          check 'https://biblemind.eu/terms.html' site-terms.html 'Purpose of the website'
+          check 'https://biblemind.eu/app/privacy.html' app-privacy.html 'BibleMind iOS or Android mobile application'
+          check 'https://biblemind.eu/app/terms.html' app-terms.html 'BibleMind iOS and Android mobile application'
+          check 'https://biblemind.eu/app/data-deletion.html' app-delete.html 'For BibleMind app users'
+          check 'https://biblemind-tb2c.onrender.com/account-deletion' account.html 'Delete your BibleMind account'
+          grep -Fq 'does not govern use of the separate informational website' "$tmpdir/app-privacy.html"
+          grep -Fq 'website-only legal notice' "$tmpdir/app-terms.html"
+          echo 'PASS: Website and mobile-app legal documents are distinct and reachable.'
