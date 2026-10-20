@@ -32,16 +32,16 @@ jobs:
 
           check_site() {
             local origin="$1" label="$2"
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/privacy.html" -o "$temporary/${label}_site_privacy" || return 1
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/terms.html" -o "$temporary/${label}_site_terms" || return 1
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/privacy.html" -o "$temporary/${label}_app_privacy" || return 1
-            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/terms.html" -o "$temporary/${label}_app_terms" || return 1
-            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/${label}_site_privacy" || return 1
-            grep -Fq 'separate terms published in the app' "$temporary/${label}_site_terms" || return 1
-            grep -Fq 'Mobile App Privacy Policy' "$temporary/${label}_app_privacy" || return 1
-            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/${label}_app_privacy" || return 1
-            grep -Fq 'Mobile App Terms of Use' "$temporary/${label}_app_terms" || return 1
-            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/${label}_app_terms" || return 1
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/privacy.html" -o "$temporary/${label}_site_privacy" || return 1 || return 1
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/terms.html" -o "$temporary/${label}_site_terms" || return 1 || return 1
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/privacy.html" -o "$temporary/${label}_app_privacy" || return 1 || return 1
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/terms.html" -o "$temporary/${label}_app_terms" || return 1 || return 1
+            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/${label}_site_privacy" || return 1 || return 1
+            grep -Fq 'separate terms published in the app' "$temporary/${label}_site_terms" || return 1 || return 1
+            grep -Fq 'Mobile App Privacy Policy' "$temporary/${label}_app_privacy" || return 1 || return 1
+            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/${label}_app_privacy" || return 1 || return 1
+            grep -Fq 'Mobile App Terms of Use' "$temporary/${label}_app_terms" || return 1 || return 1
+            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/${label}_app_terms" || return 1 || return 1
             echo "PASS: ${label} website-only and app-only legal notices are distinct."
           }
 
