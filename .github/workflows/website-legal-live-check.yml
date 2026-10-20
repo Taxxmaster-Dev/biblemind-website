@@ -1,0 +1,58 @@
+name: BibleMind public legal notice smoke check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/website-legal-live-check.yml'
+      - 'app/**'
+      - 'privacy.html'
+      - 'terms.html'
+      - 'copyright.html'
+      - 'data-deletion.html'
+      - 'support.html'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-public-legal-notices:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - name: Check published website and app legal pages (no secrets)
+        shell: bash
+        run: |
+          set -euo pipefail
+          site=https://biblemind.eu
+          render=https://biblemind-website-v3.onrender.com
+          temporary="$(mktemp -d)"
+          trap 'rm -rf "$temporary"' EXIT
+
+          check_site() {
+            local origin="$1" label="$2"
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/privacy.html" -o "$temporary/${label}_site_privacy"
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/terms.html" -o "$temporary/${label}_site_terms"
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/privacy.html" -o "$temporary/${label}_app_privacy"
+            curl --fail --silent --show-error --location --max-time 25 "${origin}/app/terms.html" -o "$temporary/${label}_app_terms"
+            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/${label}_site_privacy"
+            grep -Fq 'separate terms published in the app' "$temporary/${label}_site_terms"
+            grep -Fq 'Mobile App Privacy Policy' "$temporary/${label}_app_privacy"
+            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/${label}_app_privacy"
+            grep -Fq 'Mobile App Terms of Use' "$temporary/${label}_app_terms"
+            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/${label}_app_terms"
+            echo "PASS: ${label} website-only and app-only legal notices are distinct."
+          }
+
+          # Allow the Render automatic deployment and CDN to converge.
+          for attempt in $(seq 1 10); do
+            if check_site "$render" render && check_site "$site" custom_domain; then
+              echo 'PASS: Public BibleMind legal pages are deployed on both domains.'
+              exit 0
+            fi
+            echo "Attempt ${attempt}/10: the live legal pages are not fully published yet."
+            sleep 15
+          done
+          echo 'FAIL: GitHub source was updated but the legal pages are not live.' >&2
+          exit 1
