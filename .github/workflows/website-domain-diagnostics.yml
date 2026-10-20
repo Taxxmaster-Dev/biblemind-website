@@ -1,0 +1,34 @@
+name: BibleMind domain routing diagnostics (read-only)
+
+on:
+  push:
+    branches:
+      - feature/website-live-smoke-20261020
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify public domains and URLs (no secrets)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'DNS targets for biblemind.eu:'
+          dig +short biblemind.eu || true
+          dig +short www.biblemind.eu || true
+          for host in biblemind.eu biblemind-website-v3.onrender.com biblemind-website.onrender.com; do
+            for path in privacy.html app/privacy.html app/terms.html; do
+              page="https://$host/$path"
+              file="$(mktemp)"
+              status="$(curl -sSL --max-time 20 -o "$file" -w '%{http_code}' "$page")" || status='network-failure'
+              echo "$page status=$status bytes=$(wc -c < "$file")"
+              if grep -Fq 'BibleMind iOS or Android mobile application' "$file"; then echo '  app privacy scope marker: YES'; fi
+              if grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$file"; then echo '  website-only scope marker: YES'; fi
+              if grep -Fq 'Mobile App Terms of Use' "$file"; then echo '  app terms marker: YES'; fi
+              rm -f "$file"
+            done
+          done
