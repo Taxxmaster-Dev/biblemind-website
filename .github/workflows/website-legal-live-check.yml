@@ -49,27 +49,27 @@ jobs:
               fi
             done
 
-            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/$label_privacy.html" || {
+            grep -Fq 'does not cover data processing inside the BibleMind mobile app' "$temporary/${label}_privacy.html" || {
               echo "FAIL: $label site privacy scope is wrong."
               return 1
             }
-            grep -Fq 'separate terms published in the app' "$temporary/$label_terms.html" || {
+            grep -Fq 'separate terms published in the app' "$temporary/${label}_terms.html" || {
               echo "FAIL: $label site terms scope is wrong."
               return 1
             }
-            grep -Fq 'Mobile App Privacy Policy' "$temporary/$label_app_privacy.html" || {
+            grep -Fq 'Mobile App Privacy Policy' "$temporary/${label}_app_privacy.html" || {
               echo "FAIL: $label app privacy is missing."
               return 1
             }
-            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/$label_app_privacy.html" || {
+            grep -Fq 'BibleMind iOS or Android mobile application' "$temporary/${label}_app_privacy.html" || {
               echo "FAIL: $label app privacy scope is wrong."
               return 1
             }
-            grep -Fq 'Mobile App Terms of Use' "$temporary/$label_app_terms.html" || {
+            grep -Fq 'Mobile App Terms of Use' "$temporary/${label}_app_terms.html" || {
               echo "FAIL: $label app terms are missing."
               return 1
             }
-            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/$label_app_terms.html" || {
+            grep -Fq 'BibleMind iOS and Android mobile application' "$temporary/${label}_app_terms.html" || {
               echo "FAIL: $label app terms scope is wrong."
               return 1
             }
