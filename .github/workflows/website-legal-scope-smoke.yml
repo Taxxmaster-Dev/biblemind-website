@@ -1,0 +1,79 @@
+name: BibleMind website and app legal notice smoke test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  legal-live:
+    name: Verify website and app policies on public HTTPS
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Verify legal URLs from an external GitHub runner
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError, URLError
+          import ssl
+          import sys
+          import time
+
+          URLS = (
+              ("website privacy", "https://biblemind.eu/en/privacy.html",
+               "does not cover data processing inside the BibleMind mobile app"),
+              ("website terms", "https://biblemind.eu/en/terms.html",
+               "Purpose of the website"),
+              ("mobile privacy", "https://biblemind.eu/app/privacy.html",
+               "Mobile App Privacy Policy"),
+              ("mobile terms", "https://biblemind.eu/app/terms.html",
+               "Mobile App Terms of Use"),
+              ("mobile account deletion", "https://biblemind.eu/app/data-deletion.html",
+               "For BibleMind app users"),
+              ("legacy privacy linking app", "https://biblemind.eu/privacy.html",
+               "Mobile App Privacy Policy"),
+              ("legacy terms linking app", "https://biblemind.eu/terms.html",
+               "Mobile App Terms of Use"),
+          )
+          errors = []
+          for attempt in range(1, 5):
+              errors = []
+              for label, url, marker in URLS:
+                  try:
+                      request = Request(
+                          url,
+                          headers={"User-Agent": "BibleMind-ReadOnly-Legal-Smoke/1.0"},
+                      )
+                      with urlopen(
+                          request, timeout=12, context=ssl.create_default_context()
+                      ) as response:
+                          body = response.read(250_000).decode("utf-8", "replace")
+                          if response.status != 200:
+                              raise ValueError(f"HTTP {response.status}")
+                          if marker not in body:
+                              raise ValueError(f"expected text not found: {marker}")
+                          if response.geturl().split("/")[2] != "biblemind.eu":
+                              raise ValueError("unexpected redirect host")
+                      print(f"PASS {label}: {url}", flush=True)
+                  except (HTTPError, URLError, ValueError, TimeoutError) as exc:
+                      errors.append(f"{label}: {type(exc).__name__}: {exc}")
+                      print(f"RETRY {label}: {exc}", flush=True)
+              if not errors:
+                  print("PASS: all 7 website/app legal scopes publicly verified")
+                  sys.exit(0)
+              if attempt < 4:
+                  time.sleep(15)
+          print("FAIL: public website is not yet serving the complete legal update")
+          for error in errors:
+              print("  " + error)
+          sys.exit(1)
+          PY
