@@ -1,0 +1,50 @@
+name: Draft missing mobile legal translations (15 languages)
+
+on:
+  push:
+    branches: [fix/mobile-app-legal-locales-20261023]
+    paths:
+      - 'tool/generate_mobile_legal_translations.py'
+      - '.github/workflows/draft-mobile-legal-translations.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: draft-mobile-legal-translations
+  cancel-in-progress: false
+
+jobs:
+  draft-translations:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install translation dependencies
+        run: pip install 'deep-translator==1.11.4' 'beautifulsoup4==4.13.4'
+      - name: Generate all 15 language drafts and checkpoint each
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'biblemind-legal-localization-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for lang in es pt de it pl fr nl zh-hans zh-hant vi hi th uk ru el; do
+            if [[ -f "app/$lang/privacy.html" && -f "app/$lang/terms.html" && -f "app/$lang/data-deletion.html" && -f "app/$lang/copyright.html" ]]; then
+              echo "Skipping existing complete $lang translation set"
+              continue
+            fi
+            echo "::group::Mobile app legal translations: $lang"
+            python3 tool/generate_mobile_legal_translations.py --language "$lang"
+            git add "app/$lang/"
+            git commit -m "i18n(legal): draft four complete $lang mobile-app notices"
+            git push origin HEAD:fix/mobile-app-legal-locales-20261023
+            echo "::endgroup::"
+          done
+          echo 'All 15 language drafts generated. Independent legal proofreading is still required.'

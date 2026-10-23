@@ -1,0 +1,206 @@
+{
+  "title": "BibleMind Mobile App Legal Language Coverage",
+  "app_supported_languages": 18,
+  "website_only_notices_separate": true,
+  "translation_status": {
+    "en": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_source",
+      "legal_review": "source_review_not_asserted"
+    },
+    "hu": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "es": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "pt": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "ro": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "de": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "it": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "pl": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "fr": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "nl": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "zh-hans": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "zh-hant": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "vi": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "hi": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "th": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "uk": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "ru": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "el": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    }
+  },
+  "notice": "Full mobile-app legal translation drafts now exist for all 18 app languages. EN source is user-reviewed. Non-English translations require independent legal and linguistic proofreading before public deployment."
+}

@@ -1,0 +1,33 @@
+name: BibleMind Mobile App Legal Locale Audit
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'tool/check_mobile_legal_locales.py'
+      - 'tool/check_mobile_legal_router.cjs'
+      - '.github/workflows/mobile-app-legal-locales.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+      - 'tool/check_mobile_legal_locales.py'
+      - 'tool/check_mobile_legal_router.cjs'
+
+permissions:
+  contents: read
+
+jobs:
+  legal-l10n:
+    name: Mobile legal translation and route checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check HTML structure, English scope and Romanian completeness
+        run: python3 tool/check_mobile_legal_locales.py
+      - name: Verify legal router JavaScript syntax
+        run: node --check app/legal-locale-router.js
+      - name: Run legal locale routing scenarios
+        run: node tool/check_mobile_legal_router.cjs
