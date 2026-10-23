@@ -7,7 +7,7 @@
     'en','hu','es','pt','ro','de','it','pl','fr','nl',
     'zh-hans','zh-hant','vi','hi','th','uk','ru','el'
   ];
-  const available = new Set(['en', 'ro', 'hu', 'es']);
+  const available = new Set(['en', 'hu', 'es', 'pt', 'ro', 'de', 'it', 'pl', 'fr', 'nl', 'zh-hans', 'zh-hant', 'vi', 'hi', 'th', 'uk', 'ru', 'el']);
   const names = {
     'en':'English', 'hu':'Magyar', 'es':'Español', 'pt':'Português',
     'ro':'Română', 'de':'Deutsch', 'it':'Italiano', 'pl':'Polski',
@@ -15,7 +15,7 @@
     'zh-hant':'繁體中文', 'vi':'Tiếng Việt', 'hi':'हिन्दी',
     'th':'ไทย', 'uk':'Українська', 'ru':'Русский', 'el':'Ελληνικά'
   };
-  // A fallback notice is localized even though the complete document is not.
+  // Retained for future unsupported or temporarily unavailable legal translations.
   const fallback = {
     'hu':'A teljes jogi dokumentum magyar fordítása még ellenőrzés alatt áll. Jelenleg az angol teljes szöveg olvasható.',
     'es':'La traducción completa de este documento jurídico al español aún está pendiente de revisión. Por ahora se muestra el texto completo en inglés.',
