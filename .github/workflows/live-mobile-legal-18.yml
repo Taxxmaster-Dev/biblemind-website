@@ -1,0 +1,20 @@
+name: BibleMind all 18 live mobile legal locales
+
+on:
+  pull_request:
+    paths:
+      - 'tool/check_live_mobile_legal_locales.py'
+      - '.github/workflows/live-mobile-legal-18.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-legal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm 72 translated mobile legal pages work on biblemind.eu
+        run: python3 tool/check_live_mobile_legal_locales.py
