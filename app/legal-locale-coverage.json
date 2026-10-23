@@ -44,8 +44,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "ro": {
       "document_scope": "mobile_app_only",
@@ -66,8 +66,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "it": {
       "document_scope": "mobile_app_only",
@@ -77,8 +77,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "pl": {
       "document_scope": "mobile_app_only",
@@ -88,8 +88,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "fr": {
       "document_scope": "mobile_app_only",
@@ -99,8 +99,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "nl": {
       "document_scope": "mobile_app_only",
@@ -110,8 +110,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "zh-hans": {
       "document_scope": "mobile_app_only",
@@ -121,8 +121,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "zh-hant": {
       "document_scope": "mobile_app_only",
@@ -132,8 +132,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "vi": {
       "document_scope": "mobile_app_only",
@@ -143,8 +143,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "hi": {
       "document_scope": "mobile_app_only",
@@ -154,8 +154,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "th": {
       "document_scope": "mobile_app_only",
@@ -165,8 +165,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "uk": {
       "document_scope": "mobile_app_only",
@@ -176,8 +176,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "ru": {
       "document_scope": "mobile_app_only",
@@ -187,8 +187,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "el": {
       "document_scope": "mobile_app_only",
@@ -198,9 +198,9 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     }
   },
-  "notice": "Draft Romanian/Hungarian translations are not legally proofread. Remaining app languages retain clearly labeled English full-document fallback; do not claim complete localization or deploy as such."
+  "notice": "Full mobile-app legal translation drafts now exist for all 18 app languages. EN source is user-reviewed. Non-English translations require independent legal and linguistic proofreading before public deployment."
 }
