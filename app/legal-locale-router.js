@@ -7,7 +7,7 @@
     'en','hu','es','pt','ro','de','it','pl','fr','nl',
     'zh-hans','zh-hant','vi','hi','th','uk','ru','el'
   ];
-  const available = new Set(['en', 'ro']);
+  const available = new Set(['en', 'ro', 'hu']);
   const names = {
     'en':'English', 'hu':'Magyar', 'es':'Español', 'pt':'Português',
     'ro':'Română', 'de':'Deutsch', 'it':'Italiano', 'pl':'Polski',
@@ -52,9 +52,9 @@
     ? search.get('lang')
     : (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
   const language = normalize(requested);
-  if (language === 'ro') {
-    // Prevent redirect loops: translated pages live in /app/ro/.
-    location.replace('/app/ro/' + filename + location.hash);
+  if (available.has(language) && language !== 'en') {
+    // Translated pages live under /app/{language}/, away from this English entry.
+    location.replace('/app/' + language + '/' + filename + location.hash);
     return;
   }
   const siblingNames = {
@@ -72,7 +72,10 @@
     const romanianLink = document.createElement('a');
     romanianLink.href = '/app/ro/' + filename;
     romanianLink.textContent = 'Română';
-    languageBar.append(englishLink, document.createTextNode(' · '), romanianLink);
+    const hungarianLink = document.createElement('a');
+    hungarianLink.href = '/app/hu/' + filename;
+    hungarianLink.textContent = 'Magyar';
+    languageBar.append(englishLink, document.createTextNode(' · '), romanianLink, document.createTextNode(' · '), hungarianLink);
     if (language !== 'en' && !available.has(language)) {
       const message = document.createElement('p');
       message.setAttribute('lang', language === 'zh-hans' || language === 'zh-hant' ? 'zh' : language);
