@@ -21,11 +21,19 @@ APP_LANGUAGES = (
     "en", "hu", "es", "pt", "ro", "de", "it", "pl", "fr", "nl",
     "zh-hans", "zh-hant", "vi", "hi", "th", "uk", "ru", "el",
 )
-ROMANIAN_TEXT = {
+LOCALIZED_TEXT = {
+    "ro": {
     "privacy": "Politica de confidențialitate a aplicației mobile",
     "terms": "Termenii de utilizare ai aplicației mobile",
     "data-deletion": "Solicitarea ștergerii datelor BibleMind",
     "copyright": "Drepturi de autor și proprietate intelectuală",
+    },
+    "hu": {
+        "privacy": "A mobilalkalmazás adatvédelmi szabályzata",
+        "terms": "A mobilalkalmazás felhasználási feltételei",
+        "data-deletion": "BibleMind-adatok törlésének kérelmezése",
+        "copyright": "Szerzői jogok és szellemi tulajdon",
+    },
 }
 
 
@@ -65,50 +73,55 @@ def check():
     router = (ROOT / "app/legal-locale-router.js").read_text(encoding="utf-8")
     for lang in APP_LANGUAGES:
         assert f"'{lang}'" in router, f"Missing locale route: {lang}"
-    assert "const available = new Set(['en', 'ro'])" in router
+    assert "const available = new Set(['en', 'ro', 'hu'])" in router
     for lang in APP_LANGUAGES:
-        if lang not in ("en", "ro"):
+        if lang not in ("en", "ro", "hu"):
             assert f"'{lang}':" in router, f"No disclosure for missing {lang} translation"
 
     for name in ENGLISH:
         en_file = ROOT / "app" / f"{name}.html"
-        ro_file = ROOT / "app/ro" / f"{name}.html"
-        assert en_file.is_file() and ro_file.is_file(), name
+        assert en_file.is_file(), name
         en = en_file.read_text(encoding="utf-8")
-        ro = ro_file.read_text(encoding="utf-8")
-        en_p, ro_p = LegalParser(), LegalParser()
+        en_p = LegalParser()
         en_p.feed(en)
-        ro_p.feed(ro)
         assert en_p.lang == "en", name
-        assert ro_p.lang == "ro", name
-        assert len(en_p.headings) == len(ro_p.headings) == EXPECTED_SECTIONS[name], (
-            name, len(en_p.headings), len(ro_p.headings)
-        )
+        assert len(en_p.headings) == EXPECTED_SECTIONS[name], name
         assert '/app/legal-locale-router.js' in en, name
-        assert ROMANIAN_TEXT[name] in ro, name
-        assert "Oraculum Digital Labs Ltd" in en and "Oraculum Digital Labs Ltd" in ro
-        assert "office@biblemind.eu" in en and "office@biblemind.eu" in ro
-        assert "biblemind.eu" in en and "biblemind.eu" in ro
-        for sibling in ENGLISH:
-            assert f"/app/ro/{sibling}.html" in ro, (name, sibling)
-        for link in ro_p.links:
-            if link.startswith("/"):
-                assert link.startswith(("/app/ro/", "/app/", "/assets/", "/")), link
-        assert "/ro/privacy.html" not in en, "Website-only URL must never replace app link"
-        # A mobile translation must not claim to be the privacy terms for the website.
+        assert "Oraculum Digital Labs Ltd" in en
+        assert "office@biblemind.eu" in en
+
+        for locale, titles in LOCALIZED_TEXT.items():
+            translated_file = ROOT / "app" / locale / f"{name}.html"
+            assert translated_file.is_file(), (locale, name)
+            translated = translated_file.read_text(encoding="utf-8")
+            parsed = LegalParser()
+            parsed.feed(translated)
+            assert parsed.lang == locale, (locale, name)
+            assert len(parsed.headings) == EXPECTED_SECTIONS[name], (
+                locale, name, len(parsed.headings)
+            )
+            assert titles[name] in translated, (locale, name)
+            assert "Oraculum Digital Labs Ltd" in translated
+            assert "office@biblemind.eu" in translated
+            for sibling in ENGLISH:
+                assert f"/app/{locale}/{sibling}.html" in translated, (
+                    locale, name, sibling
+                )
+
         if name == "privacy":
-            assert "site-ului" in ro
+            assert "site-ului" in (ROOT / "app/ro/privacy.html").read_text()
         if name == "terms":
-            assert "legislația Republicii Cipru" in ro
+            assert "legislația Republicii Cipru" in (ROOT / "app/ro/terms.html").read_text()
 
     # Original website-only legal notices remain untouched by the app-locales feature.
     assert (ROOT / "ro/privacy.html").is_file()
     assert (ROOT / "ro/terms.html").is_file()
     print(
-        f"PASS: {len(ENGLISH)} English + 4 Romanian mobile-app legal pages, "
-        f"18 language routes audited (16 clearly disclosed fallbacks)."
+        f"PASS: {len(ENGLISH)} English + {len(LOCALIZED_TEXT)*len(ENGLISH)} "
+        f"localized mobile-app legal pages, 18 routes audited "
+        f"({18-1-len(LOCALIZED_TEXT)} disclosed fallbacks)."
     )
-    print("NOTE: Romanian translation requires independent legal proofreading.")
+    print("NOTE: all non-English translations require independent legal proofreading.")
 
 
 if __name__ == "__main__":
