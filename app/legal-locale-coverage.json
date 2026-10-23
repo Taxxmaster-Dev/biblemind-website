@@ -33,8 +33,8 @@
         "data-deletion",
         "copyright"
       ],
-      "coverage": "english_fallback_disclosed",
-      "legal_review": "translation_not_yet_created"
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
     },
     "pt": {
       "document_scope": "mobile_app_only",
