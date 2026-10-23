@@ -121,8 +121,8 @@ def check():
             )
             if locale in ("ro", "hu") and name in titles:
                 assert titles[name] in translated, (locale, name)
-            assert re.search(r"<h1[^>]*>\\s*[^<\\s]", translated), (locale, name)
-            assert not re.search(r"<!doctype html>\\s*html<html", translated, flags=re.I), (locale, name)
+            assert re.search(r"<h1[^>]*>\s*[^<\s]", translated), (locale, name)
+            assert not re.search(r"<!doctype html>\s*html<html", translated, flags=re.I), (locale, name)
             for structural_tag in ("p", "li"):
                 assert translated.count("<" + structural_tag) >= en.count("<" + structural_tag), (
                     locale, name, structural_tag
