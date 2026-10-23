@@ -23,7 +23,7 @@ for locale in LANGUAGES:
             raise SystemExit(f"Missing approved legal page: {path}")
         source = path.read_text(encoding="utf-8")
         revised = re.sub(
-            r"(?i)\A(<!doctype html>)\s*(?:html\s*)?<html\b",
+            r"(?is)\A(<!doctype html>)[^<]{0,100}<html\b",
             r"\1\n<html",
             source,
             count=1,
