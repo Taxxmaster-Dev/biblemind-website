@@ -38,13 +38,14 @@ for (const name of ['privacy','terms','copyright','data-deletion']) {
     '/app/es/'+name+'.html');
   assert.equal(route({pathname:'/app/'+name+'.html',search:'?lang=en',lang:'ro-RO'}).redirect,
     null, 'Explicit English language must take precedence over device locale');
-  for (const lang of ['de','fr','zh-hant','hi']) {
+  for (const lang of ['hu','es','pt','ro','de','it','pl','fr','nl','zh-hans','zh-hant','vi','hi','th','uk','ru','el']) {
     const actual=route({pathname:'/app/'+name+'.html',search:'?lang='+lang});
-    assert.equal(actual.redirect,null,lang+' must not redirect to a missing translation');
-    assert.equal(actual.listener,true,lang+' must disclose English fallback in the DOM');
+    assert.equal(actual.redirect,'/app/'+lang+'/'+name+'.html',
+      lang+' must open its full legal document');
   }
+
 }
 assert.equal(route({pathname:'/privacy.html',search:'?lang=ro'}).redirect,null);
 assert.equal(route({pathname:'/ro/privacy.html',search:'?lang=ro'}).redirect,null);
 assert.equal(route({pathname:'/app/ro/terms.html',search:'?lang=ro'}).redirect,null);
-console.log('PASS: Romanian/Hungarian legal redirects, English opt-in, missing-language fallbacks and website scope.');
+console.log('PASS: all 18 legal language routes, English opt-in and website-only scope.');
