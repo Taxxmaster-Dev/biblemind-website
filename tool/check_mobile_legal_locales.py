@@ -6,6 +6,7 @@ This is a structural/coverage test, NOT a legal translation review.
 from __future__ import annotations
 
 from html.parser import HTMLParser
+import json
 from pathlib import Path
 import re
 
@@ -71,6 +72,17 @@ class LegalParser(HTMLParser):
 
 def check():
     router = (ROOT / "app/legal-locale-router.js").read_text(encoding="utf-8")
+    status = json.loads((ROOT / "app/legal-locale-coverage.json").read_text(encoding="utf-8"))
+    assert status["app_supported_languages"] == 18
+    assert set(status["translation_status"]) == set(APP_LANGUAGES)
+    for lang in APP_LANGUAGES:
+        coverage = status["translation_status"][lang]["coverage"]
+        if lang == "en":
+            assert coverage == "english_source"
+        elif lang in LOCALIZED_TEXT:
+            assert coverage == "draft_full_translation"
+        else:
+            assert coverage == "english_fallback_disclosed"
     for lang in APP_LANGUAGES:
         assert f"'{lang}'" in router, f"Missing locale route: {lang}"
     assert "const available = new Set(['en', 'ro', 'hu'])" in router
