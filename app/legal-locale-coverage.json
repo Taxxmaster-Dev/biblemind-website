@@ -1,0 +1,206 @@
+{
+  "title": "BibleMind Mobile App Legal Language Coverage",
+  "app_supported_languages": 18,
+  "website_only_notices_separate": true,
+  "translation_status": {
+    "en": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_source",
+      "legal_review": "source_review_not_asserted"
+    },
+    "hu": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "es": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "pt": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "ro": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "draft_full_translation",
+      "legal_review": "pending"
+    },
+    "de": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "it": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "pl": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "fr": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "nl": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "zh-hans": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "zh-hant": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "vi": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "hi": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "th": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "uk": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "ru": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    },
+    "el": {
+      "document_scope": "mobile_app_only",
+      "documents": [
+        "privacy",
+        "terms",
+        "data-deletion",
+        "copyright"
+      ],
+      "coverage": "english_fallback_disclosed",
+      "legal_review": "translation_not_yet_created"
+    }
+  },
+  "notice": "Draft Romanian/Hungarian translations are not legally proofread. Remaining app languages retain clearly labeled English full-document fallback; do not claim complete localization or deploy as such."
+}
