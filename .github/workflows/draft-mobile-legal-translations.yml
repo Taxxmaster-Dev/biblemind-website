@@ -36,6 +36,10 @@ jobs:
           git config user.name 'biblemind-legal-localization-bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           for lang in es pt de it pl fr nl zh-hans zh-hant vi hi th uk ru el; do
+            if [[ -f "app/$lang/privacy.html" && -f "app/$lang/terms.html" && -f "app/$lang/data-deletion.html" && -f "app/$lang/copyright.html" ]]; then
+              echo "Skipping existing complete $lang translation set"
+              continue
+            fi
             echo "::group::Mobile app legal translations: $lang"
             python3 tool/generate_mobile_legal_translations.py --language "$lang"
             git add "app/$lang/"
