@@ -1,8 +1,10 @@
 name: BibleMind all 18 live mobile legal locales
 
 on:
-  pull_request:
+  push:
+    branches: [main]
     paths:
+      - 'app/**'
       - 'tool/check_live_mobile_legal_locales.py'
       - '.github/workflows/live-mobile-legal-18.yml'
   workflow_dispatch:
@@ -13,8 +15,18 @@ permissions:
 jobs:
   live-legal:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - name: Confirm 72 translated mobile legal pages work on biblemind.eu
-        run: python3 tool/check_live_mobile_legal_locales.py
+        shell: bash
+        run: |
+          for attempt in 1 2 3 4 5; do
+            echo "Checking live legal translations (attempt $attempt of 5)"
+            if python3 tool/check_live_mobile_legal_locales.py; then
+              exit 0
+            fi
+            if [ "$attempt" != 5 ]; then sleep 20; fi
+          done
+          echo 'FAIL: approved legal translations are not fully live.'
+          exit 1
