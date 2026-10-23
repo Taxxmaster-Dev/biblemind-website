@@ -34,6 +34,8 @@ for (const name of ['privacy','terms','copyright','data-deletion']) {
     '/app/ro/'+name+'.html');
   assert.equal(route({pathname:'/app/'+name+'.html',search:'?lang=hu'}).redirect,
     '/app/hu/'+name+'.html');
+  assert.equal(route({pathname:'/app/'+name+'.html',search:'?lang=es'}).redirect,
+    '/app/es/'+name+'.html');
   assert.equal(route({pathname:'/app/'+name+'.html',search:'?lang=en',lang:'ro-RO'}).redirect,
     null, 'Explicit English language must take precedence over device locale');
   for (const lang of ['de','fr','zh-hant','hi']) {
