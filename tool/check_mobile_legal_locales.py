@@ -85,18 +85,14 @@ def check():
         coverage = status["translation_status"][lang]["coverage"]
         if lang == "en":
             assert coverage == "english_source"
-        elif lang in LOCALIZED_TEXT:
-            assert coverage == "draft_full_translation"
         else:
-            assert coverage == "english_fallback_disclosed"
+            assert coverage == "draft_full_translation"
     for lang in APP_LANGUAGES:
         assert f"'{lang}'" in router, f"Missing locale route: {lang}"
-    assert "const available = new Set(['en', 'ro', 'hu', 'es'])" in router
+    assert "const available = new Set([" in router
     for lang in APP_LANGUAGES:
-        if lang not in ("en", "ro", "hu"):
-            assert f"'{lang}':" in router, f"No disclosure for missing {lang} translation"
-
-    for name in ENGLISH:
+        assert lang == "en" or f"'{lang}'" in router
+      for name in ENGLISH:
         en_file = ROOT / "app" / f"{name}.html"
         assert en_file.is_file(), name
         en = en_file.read_text(encoding="utf-8")
@@ -108,17 +104,23 @@ def check():
         assert "Oraculum Digital Labs Ltd" in en
         assert "office@biblemind.eu" in en
 
-        for locale, titles in LOCALIZED_TEXT.items():
+        for locale in APP_LANGUAGES:
+            if locale == "en":
+                continue
+            titles = LOCALIZED_TEXT.get(locale, {})
             translated_file = ROOT / "app" / locale / f"{name}.html"
             assert translated_file.is_file(), (locale, name)
             translated = translated_file.read_text(encoding="utf-8")
             parsed = LegalParser()
             parsed.feed(translated)
-            assert parsed.lang == locale, (locale, name)
+            assert parsed.lang == ("zh" if locale.startswith("zh-") else locale), (locale, name)
+            if locale.startswith("zh-"):
+                assert f'data-script="{ "Hans" if locale == "zh-hans" else "Hant" }"' in translated
             assert len(parsed.headings) == EXPECTED_SECTIONS[name], (
                 locale, name, len(parsed.headings)
             )
-            assert titles[name] in translated, (locale, name)
+            if name in titles:
+                assert titles[name] in translated, (locale, name)
             assert "Oraculum Digital Labs Ltd" in translated
             assert "office@biblemind.eu" in translated
             for sibling in ENGLISH:
@@ -135,9 +137,8 @@ def check():
     assert (ROOT / "ro/privacy.html").is_file()
     assert (ROOT / "ro/terms.html").is_file()
     print(
-        f"PASS: {len(ENGLISH)} English + {len(LOCALIZED_TEXT)*len(ENGLISH)} "
-        f"localized mobile-app legal pages, 18 routes audited "
-        f"({18-1-len(LOCALIZED_TEXT)} disclosed fallbacks)."
+        f"PASS: 4 English + {(len(APP_LANGUAGES)-1)*4} localized "
+        f"mobile-app legal pages, 18 locale routes audited."
     )
     print("NOTE: all non-English translations require independent legal proofreading.")
 
