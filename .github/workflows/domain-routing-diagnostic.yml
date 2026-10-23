@@ -1,0 +1,42 @@
+name: BibleMind domain routing diagnosis
+on:
+  push:
+    branches: [audit/domain-routing-biblemind-20261023]
+    paths: ['.github/workflows/domain-routing-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Compare DNS, headers and mobile legal routes
+        shell: bash
+        run: |
+          set +e
+          echo '== DNS biblemind.eu =='
+          getent ahostsv4 biblemind.eu | head -10
+          echo '== DNS www.biblemind.eu =='
+          getent ahostsv4 www.biblemind.eu | head -10
+          echo '== CNAME + NS =='
+          dig +short CNAME biblemind.eu
+          dig +short CNAME www.biblemind.eu
+          dig +short NS biblemind.eu
+          for url in \
+            https://biblemind.eu/app/privacy.html \
+            https://biblemind.eu/app/ro/privacy.html \
+            https://www.biblemind.eu/app/ro/privacy.html \
+            https://biblemind-website-v3.onrender.com/app/ro/privacy.html \
+            https://biblemind-website.onrender.com/app/ro/privacy.html; do
+            echo "--- URL: $url ---"
+            curl --silent --show-error --location --max-time 20 \
+              --output /tmp/biblemind_body \
+              --dump-header /tmp/biblemind_headers \
+              --write-out 'HTTP=%{http_code} effective=%{url_effective} remote_ip=%{remote_ip}\n' \
+              "$url"
+            grep -Ei '^(HTTP/|server:|location:|cf-ray:|x-render-|x-powered-by:|x-cache:|cache-control:|age:|via:)' /tmp/biblemind_headers || true
+            printf 'BODY_SHA='
+            sha256sum /tmp/biblemind_body | cut -d' ' -f1
+            head -c 160 /tmp/biblemind_body | tr '\n' ' '
+            echo
+          done
