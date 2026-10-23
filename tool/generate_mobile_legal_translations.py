@@ -143,6 +143,12 @@ def build(locale):
         canonical = soup.new_tag("link", rel="canonical")
         canonical["href"] = f"https://biblemind.eu/app/{locale}/{name}.html"
         soup.head.append(canonical)
+        # Ensure legally significant organisation identifiers survive even
+        # when the translation provider rewrites the copyright footer.
+        footer_copyright = soup.select_one("footer .footer-meta span")
+        if footer_copyright is not None:
+            footer_copyright.string = "© 2026 Oraculum Digital Labs Ltd"
+
         # Preserve a direct English-language reference for legal comparison.
         english = soup.new_tag("a", href=f"/app/{name}.html?lang=en")
         english["lang"] = "en"
