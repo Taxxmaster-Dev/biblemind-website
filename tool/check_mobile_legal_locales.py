@@ -29,6 +29,12 @@ LOCALIZED_TEXT = {
     "data-deletion": "Solicitarea ștergerii datelor BibleMind",
     "copyright": "Drepturi de autor și proprietate intelectuală",
     },
+    "es": {
+        "privacy": "Política de privacidad de la aplicación móvil",
+        "terms": "Condiciones de uso de la aplicación móvil",
+        "data-deletion": "Solicitud de eliminación de datos de BibleMind",
+        "copyright": "Derechos de autor y propiedad intelectual",
+    },
     "hu": {
         "privacy": "A mobilalkalmazás adatvédelmi szabályzata",
         "terms": "A mobilalkalmazás felhasználási feltételei",
@@ -85,7 +91,7 @@ def check():
             assert coverage == "english_fallback_disclosed"
     for lang in APP_LANGUAGES:
         assert f"'{lang}'" in router, f"Missing locale route: {lang}"
-    assert "const available = new Set(['en', 'ro', 'hu'])" in router
+    assert "const available = new Set(['en', 'ro', 'hu', 'es'])" in router
     for lang in APP_LANGUAGES:
         if lang not in ("en", "ro", "hu"):
             assert f"'{lang}':" in router, f"No disclosure for missing {lang} translation"
