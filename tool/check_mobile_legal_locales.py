@@ -92,7 +92,7 @@ def check():
     assert "const available = new Set([" in router
     for lang in APP_LANGUAGES:
         assert lang == "en" or f"'{lang}'" in router
-      for name in ENGLISH:
+    for name in ENGLISH:
         en_file = ROOT / "app" / f"{name}.html"
         assert en_file.is_file(), name
         en = en_file.read_text(encoding="utf-8")
