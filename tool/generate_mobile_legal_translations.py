@@ -7,6 +7,8 @@ legal/linguistic verification. Never translate website-only legal documents.
 from __future__ import annotations
 
 import argparse
+import urllib.parse
+import urllib.request
 import json
 import os
 from pathlib import Path
@@ -15,7 +17,6 @@ import sys
 import time
 
 from bs4 import BeautifulSoup, NavigableString, Comment
-from deep_translator import GoogleTranslator
 
 ROOT = Path(__file__).resolve().parents[1]
 NAMES = ("privacy", "terms", "data-deletion", "copyright")
@@ -32,15 +33,29 @@ def translate_text(translator, text, *, label):
         return text
     # Never silently use the original English after a failed translation.
     last_error = None
-    for attempt in range(5):
+    for attempt in range(8):
         try:
-            value = translator.translate(text)
+            query = urllib.parse.urlencode({
+                "client": "gtx", "sl": "en", "tl": translator,
+                "dt": "t", "q": text,
+            })
+            req = urllib.request.Request(
+                "https://translate.googleapis.com/translate_a/single?" + query,
+                headers={"User-Agent": "Mozilla/5.0 (compatible; BibleMindLocalizationAudit/1.0)"},
+            )
+            with urllib.request.urlopen(req, timeout=35) as response:
+                data = json.loads(response.read().decode("utf-8"))
+            value = "".join(
+                str(segment[0] or "") for segment in data[0]
+                if isinstance(segment, list) and segment
+            )
             if value and value.strip():
+                time.sleep(1.15)
                 return value.strip()
             raise ValueError("Translation returned an empty string")
         except Exception as exc:
             last_error = exc
-            time.sleep(min(20, 2 ** attempt + 1))
+            time.sleep(min(90, 3 * 2 ** attempt + 1))
     raise RuntimeError(f"Translation failed for {label}: {last_error}")
 
 
@@ -55,7 +70,7 @@ def translate_batch(translator, values, *, label):
         while cursor + len(group) < len(values):
             value = values[cursor + len(group)]
             extra = len(value) + 28
-            if group and length + extra > 2200:
+            if group and length + extra > 1350:
                 break
             group.append(value)
             length += extra
@@ -83,7 +98,7 @@ def translate_batch(translator, values, *, label):
 
 
 def build(locale):
-    translator = GoogleTranslator(source="en", target=TARGETS[locale])
+    translator = TARGETS[locale]
     target_dir = ROOT / "app" / locale
     target_dir.mkdir(parents=True, exist_ok=True)
 
