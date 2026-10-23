@@ -7,7 +7,7 @@
     'en','hu','es','pt','ro','de','it','pl','fr','nl',
     'zh-hans','zh-hant','vi','hi','th','uk','ru','el'
   ];
-  const available = new Set(['en', 'ro', 'hu']);
+  const available = new Set(['en', 'ro', 'hu', 'es']);
   const names = {
     'en':'English', 'hu':'Magyar', 'es':'Español', 'pt':'Português',
     'ro':'Română', 'de':'Deutsch', 'it':'Italiano', 'pl':'Polski',
@@ -72,10 +72,13 @@
     const romanianLink = document.createElement('a');
     romanianLink.href = '/app/ro/' + filename;
     romanianLink.textContent = 'Română';
+    const spanishLink = document.createElement('a');
+    spanishLink.href = '/app/es/' + filename;
+    spanishLink.textContent = 'Español';
     const hungarianLink = document.createElement('a');
     hungarianLink.href = '/app/hu/' + filename;
     hungarianLink.textContent = 'Magyar';
-    languageBar.append(englishLink, document.createTextNode(' · '), romanianLink, document.createTextNode(' · '), hungarianLink);
+    languageBar.append(englishLink, document.createTextNode(' · '), romanianLink, document.createTextNode(' · '), hungarianLink, document.createTextNode(' · '), spanishLink);
     if (language !== 'en' && !available.has(language)) {
       const message = document.createElement('p');
       message.setAttribute('lang', language === 'zh-hans' || language === 'zh-hant' ? 'zh' : language);
