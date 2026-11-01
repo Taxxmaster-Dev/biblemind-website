@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Download BibleMind</title>
+  <meta name="description" content="Download BibleMind — biblical wisdom, Scripture, prayer and reflection for real life.">
+  <meta property="og:title" content="Download BibleMind">
+  <meta property="og:description" content="Biblical wisdom for real life. Available now on Google Play.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://biblemind.eu/download/">
+  <meta name="theme-color" content="#071a2f">
+  <style>
+    :root{color-scheme:dark;--navy:#071a2f;--navy2:#0d2a47;--gold:#e6b85c;--cream:#fff8e9;--muted:#bac7d5}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 50% 10%,#173e63 0,var(--navy) 45%,#03101e 100%);color:var(--cream);display:grid;place-items:center;padding:24px}
+    main{width:min(560px,100%);text-align:center;background:rgba(5,20,37,.78);border:1px solid rgba(230,184,92,.32);border-radius:28px;padding:36px 28px;box-shadow:0 24px 70px rgba(0,0,0,.4);backdrop-filter:blur(12px)}
+    .logo{width:150px;height:150px;object-fit:contain;border-radius:28px;margin-bottom:12px}.eyebrow{letter-spacing:.18em;font-size:12px;color:var(--gold);font-weight:700}.title{font-family:Georgia,"Times New Roman",serif;font-size:clamp(42px,9vw,64px);line-height:1;margin:12px 0 14px}.lead{font-size:18px;line-height:1.55;color:var(--muted);margin:0 auto 28px;max-width:440px}.store{display:inline-flex;align-items:center;justify-content:center;gap:14px;width:min(390px,100%);min-height:72px;padding:14px 22px;border-radius:16px;background:#000;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.22);box-shadow:0 12px 32px rgba(0,0,0,.35);font-weight:700}.play{width:38px;height:38px;position:relative}.play:before{content:"";position:absolute;inset:0;clip-path:polygon(0 0,100% 50%,0 100%);background:linear-gradient(135deg,#22d3ee 0 34%,#22c55e 35% 51%,#facc15 52% 68%,#fb7185 69%)}.store small{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-align:left}.store strong{display:block;font-size:25px;line-height:1.05;text-align:left}.ios{margin-top:18px;font-size:14px;color:var(--muted)}.fallback{margin-top:26px;font-size:13px;color:#93a4b6}.fallback a{color:var(--gold)}
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="/assets/biblemind_logo.png" alt="BibleMind logo">
+    <div class="eyebrow">BIBLICAL WISDOM FOR REAL LIFE</div>
+    <h1 class="title">BibleMind</h1>
+    <p class="lead">Scripture, prayer, reflection and biblical guidance for everyday life.</p>
+    <a class="store" id="google-play" href="https://play.google.com/store/apps/details?id=eu.biblemind.app" rel="noopener">
+      <span class="play" aria-hidden="true"></span>
+      <span><small>GET IT ON</small><strong>Google Play</strong></span>
+    </a>
+    <p class="ios">App Store availability is coming soon.</p>
+    <p class="fallback">If the store does not open automatically, tap the Google Play button above.</p>
+  </main>
+  <script>
+    (function(){
+      var isAndroid=/Android/i.test(navigator.userAgent||"");
+      if(isAndroid){
+        window.setTimeout(function(){window.location.replace("https://play.google.com/store/apps/details?id=eu.biblemind.app");},700);
+      }
+    }());
+  </script>
+</body>
+</html>
