@@ -28,7 +28,7 @@
       <span><small>GET IT ON</small><strong>Google Play</strong></span>
     </a>
     <p class="ios">App Store availability is coming soon.</p>
-    <p class="fallback">If the store does not open automatically, tap the Google Play button above.</p>
+    <p class="fallback">If the partner download is unavailable, <a href="https://play.google.com/store/apps/details?id=eu.biblemind.app" rel="noopener">download directly from Google Play</a>.</p>
   </main>
   <script>
     (function(){
@@ -43,9 +43,7 @@
       }
       var referral = '/r/?a=' + encodeURIComponent(agent) + '&p=' + encodeURIComponent(promoter);
       document.getElementById('google-play').href = referral;
-      if (/Android/i.test(navigator.userAgent || '')) {
-        window.setTimeout(function(){ window.location.replace(referral); }, 700);
-      }
+      // Keep this page visible so visitors can use the direct store fallback if partner tracking is unavailable.
     }());
   </script>
 </body>
