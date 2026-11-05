@@ -23,7 +23,7 @@
     <div class="eyebrow">BIBLICAL WISDOM FOR REAL LIFE</div>
     <h1 class="title">BibleMind</h1>
     <p class="lead">Scripture, prayer, reflection and biblical guidance for everyday life.</p>
-    <a class="store" id="google-play" href="https://play.google.com/store/apps/details?id=eu.biblemind.app" rel="noopener">
+    <a class="store" id="google-play" href="/r/?a=0000&amp;p=0002" rel="noopener">
       <span class="play" aria-hidden="true"></span>
       <span><small>GET IT ON</small><strong>Google Play</strong></span>
     </a>
@@ -32,9 +32,19 @@
   </main>
   <script>
     (function(){
-      var isAndroid=/Android/i.test(navigator.userAgent||"");
-      if(isAndroid){
-        window.setTimeout(function(){window.location.replace("https://play.google.com/store/apps/details?id=eu.biblemind.app");},700);
+      var query = new URLSearchParams(window.location.search);
+      var agent = query.get('a') || '0000';
+      var promoter = query.get('p') || '0002';
+      var valid = /^[0-9]{1,12}$/;
+      if (!valid.test(agent) || !valid.test(promoter) ||
+          query.getAll('a').length > 1 || query.getAll('p').length > 1) {
+        agent = '0000';
+        promoter = '0002';
+      }
+      var referral = '/r/?a=' + encodeURIComponent(agent) + '&p=' + encodeURIComponent(promoter);
+      document.getElementById('google-play').href = referral;
+      if (/Android/i.test(navigator.userAgent || '')) {
+        window.setTimeout(function(){ window.location.replace(referral); }, 700);
       }
     }());
   </script>
